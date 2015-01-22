@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="/js/jsmpg.js"></script>
+  <title>Gatekeeper</title>
+</head>
+<body>
+  <canvas id="camera"></canvas>
+  <script>
+    var canvas = document.getElementById('camera');
+    var client = new WebSocket('ws://' + location.host + '/ws');
+    var player = new jsmpeg(client, { canvas: canvas });
+  </script>
+</body>
+</html>
