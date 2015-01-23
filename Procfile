@@ -1,1 +1,1 @@
-web: foreman start -f Procfile.cheat
+web: forego start -f Procfile.cheat
