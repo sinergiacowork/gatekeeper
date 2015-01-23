@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "dependencies": {
-    "ejs": "^2.2.2",
-    "express": "^4.11.1",
-    "http-proxy": "^1.8.1",
-    "node-rtsp-stream": "^0.0.3"
+    "express": "^4.11.1"
   },
   "devDependencies": {},
   "scripts": {},

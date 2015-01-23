@@ -1,32 +1,20 @@
-var express = require('express')
-var httpProxy = require('http-proxy');
-var Stream = require('node-rtsp-stream');
-
-var stream = new Stream({
-    name: 'name',
-    streamUrl: process.env.RTSP_CONNECTION,
-    wsPort: 9999
-});
-
+var express = require('express');
+var spawn = require('child_process').spawn;
 var app = express()
 
-app.engine('html', require('ejs').renderFile);
+app.get('/door.jpg', function(req, res) {
+  res.writeHead(200, {
+    "Content-Type": "image/jpeg",
+    "Cache-Control": "no-cache"
+  });
 
-app.use(express.static('public'));
-
-var proxy = httpProxy.createProxyServer({ ws: true });
-
-app.get('/', function(req, res) {
-  res.render('index.html');
+  var ffmpeg = spawn("ffmpeg", [
+    "-rtsp_transport", "tcp",
+    "-i", process.env.RTSP_CONNECTION,
+    "-f", "image2",
+    "pipe:1"
+  ]);
+  ffmpeg.stdout.pipe(res);
 });
 
-app.get('/ws', function(req, res) {
-  proxy.web(req, res, { target: 'http://localhost:9999/'});
-});
-
-var server = require('http').createServer(app);
-server.on('upgrade', function (req, socket, head) {
-  proxy.ws(req, socket, head, { target: 'http://localhost:9999/'});
-});
-
-server.listen(process.env.PORT);
+require('http').createServer(app).listen(process.env.PORT);
