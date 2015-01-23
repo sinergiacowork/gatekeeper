@@ -12,15 +12,6 @@ var spawn = require("child_process").spawn;
 var proxy = httpProxy.createProxyServer({ ws: true });
 var app = require("express")();
 
-var ffmpeg = spawn("ffmpeg", [
-  "-rtsp_transport", "tcp",
-  "-i", process.env.RTSP_CONNECTION,
-  "-f", "image2",
-  "-updatefirst", "1",
-  "-r", "1/2",
-  "tmp/door.jpg"
-]);
-
 const MPEG_CONNECTION = 'http://localhost:9999/';
 
 app.engine('html', require('ejs').renderFile);
