@@ -19,7 +19,11 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-  res.render('index.html');
+  if(req.query.passwd == process.env.PASSWORD) {
+    res.render('index.html');
+  } else {
+    res.status(419).end();
+  }
 });
 
 app.get("/door.jpg", function(req, res) {
